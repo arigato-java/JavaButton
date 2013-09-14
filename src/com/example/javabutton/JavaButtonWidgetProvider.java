@@ -5,19 +5,17 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AsyncPlayer;
-import android.media.AudioManager;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
 public class JavaButtonWidgetProvider extends AppWidgetProvider {
 	public static final String JAVA_ACTION="com.example.javabutton.javabuttonwidget.JAVA_ACTION";
     final Uri voiceuri= Uri.parse("android.resource://com.example.javabutton/raw/java22");
-    AsyncPlayer ap=new AsyncPlayer("javavoice");
+    JavaPlayer jp=new JavaPlayer(voiceuri);
 
 	public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals(JAVA_ACTION)) {
-			ap.play(context,voiceuri,false, AudioManager.STREAM_MUSIC);
+			jp.play(context);
 		}
 		super.onReceive(context, intent);
 	}
