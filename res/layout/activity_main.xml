@@ -2,20 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bgcolor"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:gravity="top|center"
+        android:lines="4"
+        android:text="@string/javayou_downloadtoday"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="36sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/dl_free_java"
         android:onClick="JavaButtonClick"
-        android:text="@string/Java" />
+        android:src="@drawable/dl_button" />
 
 </RelativeLayout>
