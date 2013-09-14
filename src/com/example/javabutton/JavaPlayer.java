@@ -9,11 +9,17 @@ public class JavaPlayer {
 		jThread=new JavaPlayerThread(javaUri);
 		jThread.start();
 	}
+	public void play() {
+		jThread.enqueuePlay();
+	}
 	public void stop() {
 		jThread.enqueueStop();
 	}
-	public void play(Context ctx) {
+	public void setContext(Context ctx) {
 		jThread.enqueueChangeContext(ctx);
-		jThread.enqueuePlay();
+	}
+	public void play(Context ctx) {
+		setContext(ctx);
+		play();
 	}
 }

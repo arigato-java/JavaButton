@@ -4,23 +4,20 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AsyncPlayer;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.net.Uri;
 
 public class MainActivity extends Activity implements SensorEventListener {
-    AsyncPlayer ap;
     final Uri voiceuri= Uri.parse("android.resource://com.example.javabutton/raw/java22");
+    JavaPlayer jp=new JavaPlayer(voiceuri);
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ap=new AsyncPlayer("javavoice");
         setContentView(R.layout.activity_main);
 
         sensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -49,7 +46,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     */
     public void JavaButtonClick(View v) {
         //Toast.makeText(this,"Java",Toast.LENGTH_SHORT).show();
-        ap.play(this,voiceuri,false, AudioManager.STREAM_MUSIC);
+    	jp.play(this);
     }
 
     @Override
@@ -61,7 +58,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         float acceleration=x*x + y*y + z*z;
         if (acceleration > 1000)
-            ap.play(this,voiceuri,false, AudioManager.STREAM_MUSIC);
+            jp.play(this);
     }
 
     @Override

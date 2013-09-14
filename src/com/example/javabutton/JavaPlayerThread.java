@@ -10,50 +10,61 @@ import android.net.Uri;
 import android.util.Log;
 
 public class JavaPlayerThread extends Thread implements MediaPlayer.OnCompletionListener {
-	private MediaPlayer mPlayer;
+	private MediaPlayer mPlayer=null;
 	private LinkedBlockingQueue<Integer> cmdQ;
 	private Uri jUri;
 	private Context nextContext;
 	private Object nextContextLock=new Object();
 	private final int JAVA_STOP=0;
 	private final int JAVA_PLAY=1;
-	private final int JAVA_CHANGE_CONTEXT=2;
+	private final int JAVA_PASS=0xff;
 	public JavaPlayerThread(Uri javaUri) {
 		cmdQ=new LinkedBlockingQueue<Integer>();
-		mPlayer=new MediaPlayer();
-		mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		mPlayer.setLooping(false);
-		mPlayer.setOnCompletionListener(this);
 		jUri=javaUri;
 	}
 	public void run() {
-		Integer cmd;
 		while(true) {
+			int cmdVal;
 			try {
+				Integer cmd;
 				cmd=cmdQ.take(); // This blocks when queue is empty
+				cmdVal=cmd.intValue();
 			} catch (InterruptedException e) {
-				cmd=Integer.valueOf(0xff);
+				cmdVal=JAVA_PASS;
 			}
-			int cmdVal=cmd.intValue();
-			if(cmdVal==JAVA_STOP || cmdVal==JAVA_PLAY) {
-				if(mPlayer.isPlaying()) {
-					mPlayer.stop();
-					mPlayer.release();
-				}
+			if(cmdVal==JAVA_STOP) {
+				try {
+					if(mPlayer!=null && mPlayer.isPlaying()) {
+						mPlayer.stop();
+						mPlayer.release();
+					}
+				} catch (IllegalStateException e) { } // already released
 			}
 			if(cmdVal==JAVA_PLAY) {
-				mPlayer.start();
-			} else if(cmdVal==JAVA_CHANGE_CONTEXT) {
+				MediaPlayer mPlayer2;
 				Context ctx;
 				synchronized(nextContextLock) {
 					ctx=nextContext;
 				}
+				mPlayer2=new MediaPlayer();
+				mPlayer2.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				mPlayer2.setLooping(false);
+				mPlayer2.setOnCompletionListener(this);
 				try {
-					mPlayer.setDataSource(ctx,jUri);
-					mPlayer.prepare();
+					mPlayer2.setDataSource(ctx,jUri);
+					mPlayer2.prepare();
 				} catch (IOException e) {
 					Log.w("JavaPlayer","mPlayer change datasource failed.");
 				}
+				// stop mPlayer
+				try {
+					if(mPlayer!=null && mPlayer.isPlaying()) {
+						mPlayer.stop();
+						mPlayer.release();
+					}
+				} catch (IllegalStateException e) { } // already released
+				mPlayer2.start();
+				mPlayer=mPlayer2;
 			}
 		}
 	}
@@ -67,7 +78,6 @@ public class JavaPlayerThread extends Thread implements MediaPlayer.OnCompletion
 		synchronized(nextContextLock) {
 			nextContext=ctx;
 		}
-		cmdQ.add(Integer.valueOf(JAVA_CHANGE_CONTEXT));
 	}
 	@Override
 	public void onCompletion(MediaPlayer mp) {
