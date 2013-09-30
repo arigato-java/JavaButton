@@ -57,8 +57,8 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
     }
     
     @Override
-    protected void onStop() {
-    	super.onStop();
+    protected void onDestroy() {
+    	super.onDestroy();
     	javaPool.release();
     }
     /*
