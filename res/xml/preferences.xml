@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:title="@string/pref_shakeJava_title"
+        android:key="pref_shakeJava_settings">
+        <EditTextPreference
+            android:key="pref_shakeJava_min"
+            android:title="@string/pref_shakeJava_min_title"
+            android:summary="@string/pref_shakeJava_min_summ"
+            android:defaultValue="600"
+            android:inputType="number" />
+        <EditTextPreference
+            android:key="pref_shakeJava_max"
+            android:title="@string/pref_shakeJava_max_title"
+            android:summary="@string/pref_shakeJava_max_summ"
+            android:defaultValue="1000"
+            android:inputType="number" />
+    </PreferenceCategory>
+    <PreferenceCategory 
+        android:title="@string/pref_djJava_title"
+        android:key="pref_djJava_settings">
+        <EditTextPreference
+            android:key="pref_djJava_min"
+            android:title="@string/pref_djJava_min_title"
+            android:summary="@string/pref_djJava_min_summ"
+            android:defaultValue="2000"
+            android:inputType="number" />
+        <EditTextPreference
+            android:key="pref_shakeJava_max"
+            android:title="@string/pref_djJava_max_title"
+            android:summary="@string/pref_djJava_max_summ"
+            android:defaultValue="5000"
+            android:inputType="number" />
+    </PreferenceCategory>
+    
+</PreferenceScreen>

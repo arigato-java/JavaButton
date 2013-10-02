@@ -5,20 +5,25 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.content.res.Resources;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 //import android.widget.Toast;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-public class MainActivity extends Activity implements SensorEventListener, GestureDetector.OnGestureListener {
+public class MainActivity extends Activity implements SensorEventListener, GestureDetector.OnGestureListener, OnSharedPreferenceChangeListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    protected final float JAVA_MIN_ACCEL=600.f;
-    protected final float JAVA_MAX_ACCEL=1000.f;
+    protected float JAVA_MIN_ACCEL=600.f;
+    protected float JAVA_MAX_ACCEL=1000.f;
     private SoundPool javaPool;
     private int maxJavaSounds=4;
     private int javaSoundId;
@@ -31,17 +36,35 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
+        shrPrefs.registerOnSharedPreferenceChangeListener(this);
+        loadPreferences(shrPrefs);
+        
         javaPool=new SoundPool(maxJavaSounds,AudioManager.STREAM_MUSIC,0);
         javaSoundId=javaPool.load(this, R.raw.java22, 1);
-        
-        Resources r=getResources();
-        v_max=r.getDimensionPixelSize(R.dimen.fling_velocity_max);
-        v_min=r.getDimensionPixelSize(R.dimen.fling_velocity_min);
-        
+                
         gDetector=new GestureDetector(this,this);
         
         sensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+    
+    private void loadPreferences(SharedPreferences shrPrefs) {
+    	float density=getResources().getDisplayMetrics().density;
+    	float x,y,z,w;
+    	x=Float.valueOf(shrPrefs.getString("pref_djJava_min", "2000"));
+       y=Float.valueOf(shrPrefs.getString("pref_djJava_max", "5000"));
+       z=Math.max(1.f, Math.min(x, y));
+       w=Math.max(v_min+1.f, Math.max(x, y));
+       v_min=density*z;
+       v_max=density*w;
+       
+       x=Float.valueOf(shrPrefs.getString("pref_shakeJava_min","600"));
+       y=Float.valueOf(shrPrefs.getString("pref_shakeJava_max", "1000"));
+       JAVA_MIN_ACCEL=Math.max(1.f, Math.min(x,y));
+       JAVA_MAX_ACCEL=Math.max(JAVA_MIN_ACCEL+1.f, Math.max(x, y));
     }
 
     @Override
@@ -61,14 +84,25 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
     	super.onDestroy();
     	javaPool.release();
     }
-    /*
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    */
+
+    @Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	int itemId=item.getItemId();
+    	if(itemId==R.id.action_settings) {
+    		Intent intent=new Intent(this,SettingsActivity.class);
+    		startActivity(intent);
+    		return true;
+    	}
+    	return super.onMenuItemSelected(featureId,item);
+    }
+    
     public void JavaButtonClick(View v) {
         //Toast.makeText(this,"Java",Toast.LENGTH_SHORT).show();
     	javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, 1.0f);
@@ -141,5 +175,10 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
 	public boolean onSingleTapUp(MotionEvent arg0) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences shrP, String arg1) {
+		loadPreferences(shrP);
 	}
 }

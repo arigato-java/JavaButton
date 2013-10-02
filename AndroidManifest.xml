@@ -30,5 +30,10 @@
 	    	<meta-data android:name="android.appwidget.provider"
 	       			   android:resource="@xml/javabutton_appwidget_info" />
 		</receiver>
-    </application>
+       <activity
+           android:name="com.example.javabutton.SettingsActivity"
+           android:label="@string/settings_title" >
+            
+       </activity>
+	</application>
 </manifest>
