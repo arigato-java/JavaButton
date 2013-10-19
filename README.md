@@ -12,16 +12,20 @@ Androidデバイスで生ジャバがいつでも聞けます。
 
 メイン画面を機能が分かりやすい表示にしました。
 
+DJ JAVA機能を追加しました。
+
 ## 対応機種
 Android 3.0以降
 
 テストはAndroid 4.1.2の実機とAndroid 4.3のエミュレータで実施。
 
 ## コンパイル済バイナリ
-http://www.adrive.com/public/zsJBrK/JavaButton-3.0.apk
-(2013-09-14)
+Amazonで配布中 http://www.amazon.co.jp/dp/B00FZID6BW
 
-SHA1(JavaButton-3.0.apk)= f8de7972bd8abb9386e898b8a7f18d46a28e9fbb
+http://www.adrive.com/public/sa2UkQ/JavaButton-4.apk
+(2013-10-19)
+
+SHA1(JavaButton-4.apk)= 87e140de60a8ea704d29e3eea4b5d7b5ba340aa5
 
 何もパーミッションを要求しないので安心。
 
