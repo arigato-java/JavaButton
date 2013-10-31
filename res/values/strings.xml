@@ -17,4 +17,7 @@
     <string name="pref_djJava_min_summ">最も低い音でジャバする速度</string>
     <string name="pref_djJava_max_title">第2ジャバ速度</string>
     <string name="pref_djJava_max_summ">最も高い音でジャバする速度</string>
+	<string name="pref_etc_title">その他</string>
+	<string name="pref_lucky_title">射幸心を煽る</string>
+	<string name="pref_lucky_summ">たまにジャバ以外のことをしゃべる</string>
 </resources>

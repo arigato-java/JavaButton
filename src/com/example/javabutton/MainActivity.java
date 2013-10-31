@@ -26,18 +26,23 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     protected float JAVA_MAX_ACCEL=1000.f;
     private SoundPool javaPool;
     private int maxJavaSounds=4;
-	private int javaSoundId;
+	private int javaSoundId,eyepadSoundId;
     private boolean evenShake=true;
     private GestureDetector gDetector;
 	private JavaGestureListener gestureListener;
+	private boolean enableLucky=false;
+	private java.util.Random random;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
+		random=new java.util.Random();
+
         javaPool=new SoundPool(maxJavaSounds,AudioManager.STREAM_MUSIC,0);
         javaSoundId=javaPool.load(this, R.raw.java22, 1);
+		eyepadSoundId=javaPool.load(this,R.raw.eyepad, 1);
 		
 		gestureListener=new JavaGestureListener(this);
 		gDetector=new GestureDetector(this,gestureListener);
@@ -67,7 +72,9 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
        y=Float.valueOf(shrPrefs.getString("pref_shakeJava_max", "1000"));
        JAVA_MIN_ACCEL=Math.max(1.f, Math.min(x,y));
        JAVA_MAX_ACCEL=Math.max(JAVA_MIN_ACCEL+1.f, Math.max(x, y));
-    }
+		
+		enableLucky=shrPrefs.getBoolean("pref_lucky_enable", false);
+	}
 
     @Override
     protected void onResume() {
@@ -140,6 +147,13 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 	}
 	
 	public void playJava(float pitch) {
-    	javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, pitch);
+		int sndId;
+		if(enableLucky) {
+			int r=random.nextInt(32);
+			sndId=(r==0)?eyepadSoundId:javaSoundId;
+		} else {
+			sndId=javaSoundId;
+		}
+		javaPool.play(sndId, 1.0f, 1.0f, 1, 0, pitch);
 	}
 }

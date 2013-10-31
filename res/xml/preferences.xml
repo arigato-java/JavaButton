@@ -32,5 +32,13 @@
             android:defaultValue="5000"
             android:inputType="number" />
     </PreferenceCategory>
-    
+	<PreferenceCategory
+		android:title="@string/pref_etc_title"
+		android:key="pref_etc_settings">
+		<CheckBoxPreference
+		 	android:key="pref_lucky_enable"
+		 	android:title="@string/pref_lucky_title"
+		 	android:summary="@string/pref_lucky_summ"
+		 	android:defaultValue="false" />
+	</PreferenceCategory>
 </PreferenceScreen>
