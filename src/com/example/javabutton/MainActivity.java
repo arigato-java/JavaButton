@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 	private JavaGestureListener gestureListener;
 	private boolean enableLucky=false;
 	private java.util.Random random;
+	private boolean enableShakeModulation=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +61,31 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     	float density=getResources().getDisplayMetrics().density;
     	float x,y,z,w;
     	float v_min,v_max;
-    	x=Float.valueOf(shrPrefs.getString("pref_djJava_min", "2000"));
-       y=Float.valueOf(shrPrefs.getString("pref_djJava_max", "5000"));
+		try {
+			x=Float.valueOf(shrPrefs.getString("pref_djJava_min", "2000"));
+			y=Float.valueOf(shrPrefs.getString("pref_djJava_max", "5000"));
+		} catch (Exception e) {
+			x=2000.f;
+			y=5000.f;
+		}
        z=Math.max(1.f, Math.min(x, y));
 		v_min=density*z;
 		w=Math.max(v_min+1.f, Math.max(x, y));
 		v_max=density*w;
 		gestureListener.setMinMax(v_min, v_max);
 		
-       x=Float.valueOf(shrPrefs.getString("pref_shakeJava_min","600"));
-       y=Float.valueOf(shrPrefs.getString("pref_shakeJava_max", "1000"));
+		try {
+			x=Float.valueOf(shrPrefs.getString("pref_shakeJava_min","600"));
+			y=Float.valueOf(shrPrefs.getString("pref_shakeJava_max", "1000"));
+		} catch (Exception e) {
+			x=600.f;
+			y=1000.f;
+		}
        JAVA_MIN_ACCEL=Math.max(1.f, Math.min(x,y));
        JAVA_MAX_ACCEL=Math.max(JAVA_MIN_ACCEL+1.f, Math.max(x, y));
 		
 		enableLucky=shrPrefs.getBoolean("pref_lucky_enable", false);
+		enableShakeModulation=shrPrefs.getBoolean("pref_shakeJava_modulation_enable", true);
 	}
 
     @Override
@@ -126,8 +138,13 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
         float acceleration=x*x + y*y + z*z;
         if (acceleration > JAVA_MIN_ACCEL) {
         	if(evenShake) {
+				float pitch;
         		acceleration=Math.min(acceleration, JAVA_MAX_ACCEL);
-            	float pitch=0.8f+1.2f*(acceleration-JAVA_MIN_ACCEL)/(JAVA_MAX_ACCEL-JAVA_MIN_ACCEL);
+				if(enableShakeModulation) {
+					pitch=0.8f+1.2f*(acceleration-JAVA_MIN_ACCEL)/(JAVA_MAX_ACCEL-JAVA_MIN_ACCEL);
+				} else {
+					pitch=1.f;
+				}
             	playJava(pitch);
             }
         	evenShake=!evenShake;

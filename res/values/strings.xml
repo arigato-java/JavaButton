@@ -13,7 +13,9 @@
     <string name="pref_shakeJava_min_summ">最も低い音でジャバする加速度</string>
     <string name="pref_shakeJava_max_title">第2ジャバ加速度</string>
     <string name="pref_shakeJava_max_summ">最も高い音でジャバする加速度</string>
-    <string name="pref_djJava_min_title">第1ジャバ速度</string>
+	<string name="pref_shakeJava_modulation_enable_title">振る速度に応じてジャバを変調</string>
+	<string name="pref_shakeJava_modulation_enable_summ">ジャバ音の高さを振る早さに応じて変更する</string>
+	<string name="pref_djJava_min_title">第1ジャバ速度</string>
     <string name="pref_djJava_min_summ">最も低い音でジャバする速度</string>
     <string name="pref_djJava_max_title">第2ジャバ速度</string>
     <string name="pref_djJava_max_summ">最も高い音でジャバする速度</string>

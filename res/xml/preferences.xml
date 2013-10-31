@@ -3,6 +3,11 @@
     <PreferenceCategory 
         android:title="@string/pref_shakeJava_title"
         android:key="pref_shakeJava_settings">
+		<CheckBoxPreference
+			android:key="pref_shakeJava_modulation_enable"
+			android:title="@string/pref_shakeJava_modulation_enable_title"
+			android:summary="@string/pref_shakeJava_modulation_enable_summ"
+			android:defaultValue="true" />
         <EditTextPreference
             android:key="pref_shakeJava_min"
             android:title="@string/pref_shakeJava_min_title"
