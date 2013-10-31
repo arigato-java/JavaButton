@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -172,5 +173,27 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 			sndId=javaSoundId;
 		}
 		javaPool.play(sndId, 1.0f, 1.0f, 1, 0, pitch);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(event.getAction()==KeyEvent.ACTION_DOWN) {
+			if(keyCode==KeyEvent.KEYCODE_SPACE || 
+					keyCode==KeyEvent.KEYCODE_BUTTON_A ||
+					keyCode==KeyEvent.KEYCODE_BUTTON_L1 ||
+					keyCode==KeyEvent.KEYCODE_BUTTON_L2 ||
+					keyCode==KeyEvent.KEYCODE_BUTTON_R1 ||
+					keyCode==KeyEvent.KEYCODE_BUTTON_R2) {
+				playJava(1.f);
+				return true;
+			} else {
+				float pitch=JavaPiano.JavaPianoCalcCode(keyCode);
+				if(pitch>0.f) {
+					playJava(pitch);
+					return true;
+				}
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }
