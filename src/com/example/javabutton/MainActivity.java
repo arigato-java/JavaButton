@@ -19,48 +19,50 @@ import android.view.View;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-public class MainActivity extends Activity implements SensorEventListener, GestureDetector.OnGestureListener, OnSharedPreferenceChangeListener {
+public class MainActivity extends Activity implements SensorEventListener, OnSharedPreferenceChangeListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     protected float JAVA_MIN_ACCEL=600.f;
     protected float JAVA_MAX_ACCEL=1000.f;
     private SoundPool javaPool;
     private int maxJavaSounds=4;
-    private int javaSoundId;
+	private int javaSoundId;
     private boolean evenShake=true;
     private GestureDetector gDetector;
-	private float v_max;
-	private float v_min;
+	private JavaGestureListener gestureListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
-        shrPrefs.registerOnSharedPreferenceChangeListener(this);
-        loadPreferences(shrPrefs);
-        
         javaPool=new SoundPool(maxJavaSounds,AudioManager.STREAM_MUSIC,0);
         javaSoundId=javaPool.load(this, R.raw.java22, 1);
-                
-        gDetector=new GestureDetector(this,this);
-        
+		
+		gestureListener=new JavaGestureListener(this);
+		gDetector=new GestureDetector(this,gestureListener);
+
         sensorManager= (SensorManager)getSystemService(SENSOR_SERVICE);
         accelerometer= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
+		shrPrefs.registerOnSharedPreferenceChangeListener(this);
+		loadPreferences(shrPrefs);
     }
     
     private void loadPreferences(SharedPreferences shrPrefs) {
     	float density=getResources().getDisplayMetrics().density;
     	float x,y,z,w;
+    	float v_min,v_max;
     	x=Float.valueOf(shrPrefs.getString("pref_djJava_min", "2000"));
        y=Float.valueOf(shrPrefs.getString("pref_djJava_max", "5000"));
        z=Math.max(1.f, Math.min(x, y));
-       w=Math.max(v_min+1.f, Math.max(x, y));
-       v_min=density*z;
-       v_max=density*w;
-       
+		v_min=density*z;
+		w=Math.max(v_min+1.f, Math.max(x, y));
+		v_max=density*w;
+		gestureListener.setMinMax(v_min, v_max);
+		
        x=Float.valueOf(shrPrefs.getString("pref_shakeJava_min","600"));
        y=Float.valueOf(shrPrefs.getString("pref_shakeJava_max", "1000"));
        JAVA_MIN_ACCEL=Math.max(1.f, Math.min(x,y));
@@ -103,10 +105,9 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
     	return super.onMenuItemSelected(featureId,item);
     }
     
-    public void JavaButtonClick(View v) {
-        //Toast.makeText(this,"Java",Toast.LENGTH_SHORT).show();
-    	javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, 1.0f);
-    }
+	public void JavaButtonClick(View v) {
+		playJava(1.f);
+	}
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -120,7 +121,7 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
         	if(evenShake) {
         		acceleration=Math.min(acceleration, JAVA_MAX_ACCEL);
             	float pitch=0.8f+1.2f*(acceleration-JAVA_MIN_ACCEL)/(JAVA_MAX_ACCEL-JAVA_MIN_ACCEL);
-            	javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, pitch);
+            	playJava(pitch);
             }
         	evenShake=!evenShake;
         }
@@ -134,51 +135,11 @@ public class MainActivity extends Activity implements SensorEventListener, Gestu
     public void onAccuracyChanged(Sensor sensor, int accuracy){}
 
 	@Override
-	public boolean onDown(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onFling(MotionEvent evt0, MotionEvent evt1,
-			float velocityX, float velocityY) {
-		float velocity=(float) Math.sqrt(velocityX*velocityX+velocityY*velocityY);
-		if(velocity>=v_min) {
-			float v2=Math.min(v_max, velocity);
-			float pitch=(v2-v_min)/(v_max-v_min)*1.3f+0.7f;
-			javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, pitch);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void onLongPress(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
-			float arg3) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onShowPress(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean onSingleTapUp(MotionEvent arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void onSharedPreferenceChanged(SharedPreferences shrP, String arg1) {
 		loadPreferences(shrP);
+	}
+	
+	public void playJava(float pitch) {
+    	javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, pitch);
 	}
 }
