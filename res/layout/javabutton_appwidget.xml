@@ -3,8 +3,7 @@
     android:id="@+id/redButton"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:selectableItemBackground"
     android:contentDescription="@string/dl_free_java"
-    android:src="@drawable/dl_button" >
-
+	android:src="@drawable/jb_face" 
+	android:background="@color/javabutton_bg">
 </ImageButton>

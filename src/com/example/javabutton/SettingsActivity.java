@@ -1,19 +1,23 @@
 package com.example.javabutton;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if(android.os.Build.VERSION.SDK_INT>=11) {
+			addUpToActionbar();
+		}
+		addPreferencesFromResource(R.xml.preferences);
+	}
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void addUpToActionbar() {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		// Display the fragment as the main content.
-
-		getFragmentManager().beginTransaction()
-		.replace(android.R.id.content, new SettingsFragment())
-		.commit();
 	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

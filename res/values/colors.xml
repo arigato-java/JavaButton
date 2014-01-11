@@ -1,3 +1,4 @@
 
-    <resources>
-    </resources>
+<resources>
+    <color name="javabutton_bg">#0fff</color>
+</resources>
