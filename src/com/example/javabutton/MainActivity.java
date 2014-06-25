@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ShareActionProvider;
 //import android.widget.Toast;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -111,6 +112,17 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+		MenuItem shareItem=menu.findItem(R.id.menu_item_share);
+		ShareActionProvider sap=(ShareActionProvider)shareItem.getActionProvider();
+		if(sap!=null) {
+			Intent shareIntent=new Intent(Intent.ACTION_SEND);
+			shareIntent.setType(org.apache.http.protocol.HTTP.PLAIN_TEXT_TYPE);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.java_message));
+			
+			sap.setShareIntent(shareIntent);
+		}
+
         return true;
     }
 

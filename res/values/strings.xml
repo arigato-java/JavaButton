@@ -3,6 +3,8 @@
 
     <string name="app_name">ジャバボタン</string>
     <string name="action_settings">設定</string>
+	<string name="action_share">Share</string>
+	<string name="java_message">ジャバ</string>
     <string name="settings_title">設定</string>
     <string name="dl_free_java">無料Javaのダウンロード</string>
     <string name="javayou_downloadtoday">あなたとJAVA,\n 今すぐダウンロード</string>
