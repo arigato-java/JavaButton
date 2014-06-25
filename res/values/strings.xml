@@ -7,7 +7,7 @@
 	<string name="java_message">ジャバ</string>
     <string name="settings_title">設定</string>
     <string name="dl_free_java">無料Javaのダウンロード</string>
-    <string name="javayou_downloadtoday">あなたとJAVA,\n 今すぐダウンロード</string>
+    <string name="javayou_downloadtoday">あなたとJAVA,\n 今すぐダウンロー\nド</string>
 
     <string name="pref_shakeJava_title">振れ振れジャバジャバ</string>
     <string name="pref_djJava_title">DJジャバ</string>
