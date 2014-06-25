@@ -4,8 +4,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,7 +114,14 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+		if(Build.VERSION.SDK_INT>=14) {
+			setupShareAction(menu);
+		}
+		return true;
+	}
 
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private boolean setupShareAction(Menu menu) {
 		MenuItem shareItem=menu.findItem(R.id.menu_item_share);
 		ShareActionProvider sap=(ShareActionProvider)shareItem.getActionProvider();
 		if(sap!=null) {
