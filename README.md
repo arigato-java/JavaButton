@@ -30,8 +30,7 @@ Android 2.2以降
 ## コンパイル済バイナリ
 Amazonで配布中 http://www.amazon.co.jp/dp/B00FZID6BW
 
-http://www.adrive.com/public/sa2UkQ/JavaButton-6.apk
-(2014-01-11)
+GitHub Release https://github.com/tomari/JavaButton/releases
 
 何もパーミッションを要求しないので安心。
 
