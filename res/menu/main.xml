@@ -4,5 +4,6 @@
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:title="@string/action_settings"
-        android:icon="@drawable/action_settings" />
+		android:icon="@android:drawable/ic_menu_preferences"
+        />
 </menu>
