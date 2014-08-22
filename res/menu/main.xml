@@ -2,13 +2,11 @@
 	<item
 		android:id="@+id/action_mic"
 		android:orderInCategory="90"
-		android:showAsAction="always"
 		android:title="@string/action_mic"
-		android:icon="@android:drawable/ic_btn_speak_now" />
+		android:icon="@android:drawable/ic_menu_call" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
         android:title="@string/action_settings"
 		android:icon="@android:drawable/ic_menu_preferences"
         />
