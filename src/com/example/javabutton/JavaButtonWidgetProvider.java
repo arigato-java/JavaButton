@@ -5,7 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 public class JavaButtonWidgetProvider extends AppWidgetProvider {
@@ -14,8 +16,14 @@ public class JavaButtonWidgetProvider extends AppWidgetProvider {
     JavaPlayer jp=new JavaPlayer(voiceuri);
 
 	public void onReceive(Context context, Intent intent) {
+		SharedPreferences shrP=PreferenceManager.getDefaultSharedPreferences(context);
+		long javaCounter=shrP.getLong(SettingsActivity.pref_counterPress, 0l);
 		if(intent.getAction().equals(JAVA_ACTION)) {
 			jp.play(context);
+			javaCounter++;
+			SharedPreferences.Editor e=shrP.edit();
+			e.putLong(SettingsActivity.pref_counterPress, javaCounter);
+			e.commit();
 		}
 		super.onReceive(context, intent);
 	}
