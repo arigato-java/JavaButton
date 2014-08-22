@@ -277,6 +277,10 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 					if("java".equals(javaStr)) {
 						counterVoice++;
 						playJava(1.f);
+						SharedPreferences shrP=PreferenceManager.getDefaultSharedPreferences(this);
+						SharedPreferences.Editor e=shrP.edit();
+						e.putLong(SettingsActivity.pref_counterVoice,counterVoice);
+						e.commit();
 					} else {
 						Toast.makeText(this, javaStr, Toast.LENGTH_SHORT).show();
 					}
