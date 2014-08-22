@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	<PreferenceCategory
+		android:title="@string/pref_counters_title">
+		<Preference
+			android:title="@string/pref_counter_press"
+			android:key="PressCounter" />
+		<Preference
+			android:title="@string/pref_counter_dj"
+			android:key="DJJavaCounter" />
+		<Preference
+			android:title="@string/pref_counter_shake"
+			android:key="ShakeCounter" />
+		<Preference
+			android:title="@string/pref_counter_voice"
+			android:key="VoiceCounter" />
+	</PreferenceCategory>
     <PreferenceCategory 
         android:title="@string/pref_shakeJava_title"
         android:key="pref_shakeJava_settings">

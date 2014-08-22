@@ -29,6 +29,7 @@ public class JavaGestureListener implements GestureDetector.OnGestureListener {
 			float v2=Math.min(v_max, velocity);
 			float pitch=(v2-v_min)/(v_max-v_min)*1.3f+0.7f;
 			a.playJava(pitch);
+			a.incrementDJCounter();
 			//javaPool.play(javaSoundId, 1.0f, 1.0f, 1, 0, pitch);
 			return true;
 		}

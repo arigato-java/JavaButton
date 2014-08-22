@@ -10,6 +10,11 @@
     <string name="dl_free_java">無料Javaのダウンロード</string>
     <string name="javayou_downloadtoday">あなたとJAVA,\n 今すぐダウンロー\nド</string>
 
+	<string name="pref_counters_title">カウンタ情報</string>
+	<string name="pref_counter_press">ボタン押下回数</string>
+	<string name="pref_counter_shake">振った回数</string>
+	<string name="pref_counter_dj">スクラッチ回数</string>
+	<string name="pref_counter_voice">音声認識回数</string>
     <string name="pref_shakeJava_title">振れ振れジャバジャバ</string>
     <string name="pref_djJava_title">DJジャバ</string>
     <string name="pref_shakeJava_min_title">第1ジャバ加速度</string>

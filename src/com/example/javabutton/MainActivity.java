@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 	private boolean enableLucky=false;
 	private java.util.Random random;
 	private boolean enableShakeModulation=true;
+	private long counterDJ, counterPress, counterShake, counterVoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,6 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
 		shrPrefs.registerOnSharedPreferenceChangeListener(this);
-		loadPreferences(shrPrefs);
     }
     
     private void loadPreferences(SharedPreferences shrPrefs) {
@@ -96,20 +96,36 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		
 		enableLucky=shrPrefs.getBoolean("pref_lucky_enable", false);
 		enableShakeModulation=shrPrefs.getBoolean("pref_shakeJava_modulation_enable", true);
+		
+		counterPress=shrPrefs.getLong(SettingsActivity.pref_counterPress, 0l);
+		counterDJ=shrPrefs.getLong(SettingsActivity.pref_counterDJ, 0l);
+		counterShake=shrPrefs.getLong(SettingsActivity.pref_counterShake, 0l);
+		counterVoice=shrPrefs.getLong(SettingsActivity.pref_counterVoice, 0l);
 	}
 
     @Override
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW);
+		loadPreferences(PreferenceManager.getDefaultSharedPreferences(this));
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         sensorManager.unregisterListener(this);
-    }
-    
+		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+		saveCounters();
+		super.onPause();
+	}
+	private void saveCounters() {
+		SharedPreferences.Editor e=PreferenceManager.getDefaultSharedPreferences(this).edit();
+		e.putLong(SettingsActivity.pref_counterShake, counterShake);
+		e.putLong(SettingsActivity.pref_counterDJ, counterDJ);
+		e.putLong(SettingsActivity.pref_counterPress, counterPress);
+		e.putLong(SettingsActivity.pref_counterVoice, counterVoice);
+		e.commit();
+	}
+
     @Override
     protected void onDestroy() {
     	super.onDestroy();
@@ -172,6 +188,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 
     public void JavaButtonClick(View v) {
 		playJava(1.f);
+		counterPress++;
 	}
 
     @Override
@@ -192,6 +209,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 					pitch=1.f;
 				}
             	playJava(pitch);
+				counterShake++;
             }
         	evenShake=!evenShake;
         }
@@ -229,6 +247,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 					keyCode==KeyEvent.KEYCODE_BUTTON_L2 ||
 					keyCode==KeyEvent.KEYCODE_BUTTON_R1 ||
 					keyCode==KeyEvent.KEYCODE_BUTTON_R2) {
+				counterPress++;
 				playJava(1.f);
 				return true;
 			} else {
@@ -256,6 +275,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 				try {
 					String javaStr=matches.get(0).toLowerCase(java.util.Locale.US);
 					if("java".equals(javaStr)) {
+						counterVoice++;
 						playJava(1.f);
 					} else {
 						Toast.makeText(this, javaStr, Toast.LENGTH_SHORT).show();
@@ -266,5 +286,8 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 			return;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	public void incrementDJCounter() {
+		counterDJ++;
 	}
 }
