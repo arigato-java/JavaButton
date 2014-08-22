@@ -1,5 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
+		android:id="@+id/action_mic"
+		android:orderInCategory="90"
+		android:showAsAction="always"
+		android:title="@string/action_mic"
+		android:icon="@drawable/action_mic" />
+	<item
 		android:id="@+id/action_settings"
 		android:orderInCategory="100"
 		android:showAsAction="ifRoom"

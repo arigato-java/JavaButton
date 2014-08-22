@@ -1,5 +1,8 @@
 package com.example.javabutton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -7,11 +10,13 @@ import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.ResolveInfo;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -19,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ShareActionProvider;
+import android.widget.Toast;
 //import android.widget.Toast;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -109,13 +115,28 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     	super.onDestroy();
     	javaPool.release();
     }
-    
+	private boolean isSpeechRecognizerAvailable() {
+		try {
+			Intent recognitionIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			List<ResolveInfo> activities=getPackageManager().queryIntentActivities(recognitionIntent, 0);
+			if(activities.size()>0) {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return false;
+	}
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 		if(Build.VERSION.SDK_INT>=14) {
 			setupShareAction(menu);
+		}
+		if(!isSpeechRecognizerAvailable()) {
+			MenuItem micAction=menu.findItem(R.id.action_mic);
+			micAction.setVisible(false);
 		}
 		return true;
 	}
@@ -141,12 +162,15 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     	if(itemId==R.id.action_settings) {
     		Intent intent=new Intent(this,SettingsActivity.class);
     		startActivity(intent);
-    		return true;
-    	}
-    	return super.onMenuItemSelected(featureId,item);
-    }
-    
-	public void JavaButtonClick(View v) {
+		} else if(itemId==R.id.action_mic) {
+			startSpeechRecognition();
+		} else {
+			return super.onMenuItemSelected(featureId,item);
+		}
+		return true;
+	}
+
+    public void JavaButtonClick(View v) {
 		playJava(1.f);
 	}
 
@@ -216,5 +240,31 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	private static final int VOICE_RECOGNITION_REQUEST_CODE=0x06a103;
+	private void startSpeechRecognition() {
+		Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+		intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+		startActivityForResult(intent,VOICE_RECOGNITION_REQUEST_CODE);
+	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode==VOICE_RECOGNITION_REQUEST_CODE && resultCode==RESULT_OK) {
+			ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+			if(matches.size()>0) {
+				try {
+					String javaStr=matches.get(0).toLowerCase(java.util.Locale.US);
+					if("java".equals(javaStr)) {
+						playJava(1.f);
+					} else {
+						Toast.makeText(this, javaStr, Toast.LENGTH_SHORT).show();
+					}
+				} catch (NullPointerException e) {
+				}
+			}
+			return;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

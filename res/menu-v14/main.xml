@@ -4,7 +4,13 @@
 			android:showAsAction="ifRoom"
 			android:title="@string/action_share"
 			android:actionProviderClass="android.widget.ShareActionProvider" />
-    <item
+	<item
+		android:id="@+id/action_mic"
+		android:orderInCategory="90"
+		android:showAsAction="always"
+		android:title="@string/action_mic"
+		android:icon="@drawable/action_mic" />
+	<item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
