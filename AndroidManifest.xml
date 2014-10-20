@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.example.javabutton"
-	android:versionCode="9"
-	android:versionName="9" >
+	android:versionCode="10"
+	android:versionName="10" >
 
 	<uses-sdk
 		android:minSdkVersion="8"
-		android:targetSdkVersion="20" />
+		android:targetSdkVersion="21" />
 	<supports-screens
 		android:largeScreens="true"
 		android:xlargeScreens="true" />
