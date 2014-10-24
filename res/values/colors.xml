@@ -1,4 +1,6 @@
 
 <resources>
     <color name="javabutton_bg">#0fff</color>
+	<color name="primary">#f00</color>
+	<color name="primary_dark">#a00</color>
 </resources>
