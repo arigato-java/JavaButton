@@ -26,10 +26,12 @@ Shareボタン搭載， Twitterアプリなどに「ジャバ」という文字�
 
 各種ジャバの回数をカウントするようにしました。カウンタ値は設定画面に表示します。
 
+Android 5.0ではMaterialデザインになるようにしました。
+
 ## 対応機種
 Android 2.2以降
 
-テストはAndroid 4.1.2の実機とAndroid 4.3のエミュレータ, Google Nexus One (Android 2.3.6)で実施。
+テストはAndroid 4.1.2の実機とAndroid 5.0のエミュレータ, Google Nexus One (Android 2.3.6)で実施。
 
 ## コンパイル済バイナリ
 Amazonで配布中 http://www.amazon.co.jp/dp/B00FZID6BW
