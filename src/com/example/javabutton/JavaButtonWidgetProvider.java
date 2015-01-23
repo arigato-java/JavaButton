@@ -17,12 +17,13 @@ public class JavaButtonWidgetProvider extends AppWidgetProvider {
 
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences shrP=PreferenceManager.getDefaultSharedPreferences(context);
-		long javaCounter=shrP.getLong(SettingsActivity.pref_counterPress, 0l);
 		if(intent.getAction().equals(JAVA_ACTION)) {
 			jp.play(context);
-			javaCounter++;
 			SharedPreferences.Editor e=shrP.edit();
-			e.putLong(SettingsActivity.pref_counterPress, javaCounter);
+			long javaCounter=shrP.getLong(SettingsActivity.pref_counterPress, 0l);
+			// prevent long overflow roll-over
+			long nextjavaCounter=Math.max(javaCounter+1,javaCounter);
+			e.putLong(SettingsActivity.pref_counterPress, nextjavaCounter);
 			e.commit();
 		}
 		super.onReceive(context, intent);

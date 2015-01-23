@@ -97,12 +97,14 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		enableLucky=shrPrefs.getBoolean("pref_lucky_enable", false);
 		enableShakeModulation=shrPrefs.getBoolean("pref_shakeJava_modulation_enable", true);
 		
-		counterPress=shrPrefs.getLong(SettingsActivity.pref_counterPress, 0l);
-		counterDJ=shrPrefs.getLong(SettingsActivity.pref_counterDJ, 0l);
-		counterShake=shrPrefs.getLong(SettingsActivity.pref_counterShake, 0l);
-		counterVoice=shrPrefs.getLong(SettingsActivity.pref_counterVoice, 0l);
+		resetCounters();
 	}
-
+	private void resetCounters() {
+		counterPress=0l;
+		counterDJ=0l;
+		counterShake=0l;
+		counterVoice=0l;
+	}
     @Override
     protected void onResume() {
         super.onResume();
@@ -118,11 +120,21 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		super.onPause();
 	}
 	private void saveCounters() {
-		SharedPreferences.Editor e=PreferenceManager.getDefaultSharedPreferences(this).edit();
-		e.putLong(SettingsActivity.pref_counterShake, counterShake);
-		e.putLong(SettingsActivity.pref_counterDJ, counterDJ);
-		e.putLong(SettingsActivity.pref_counterPress, counterPress);
-		e.putLong(SettingsActivity.pref_counterVoice, counterVoice);
+		SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor e=shrPrefs.edit();
+		long oldcounterPress=shrPrefs.getLong(SettingsActivity.pref_counterPress, 0l);
+		long oldcounterDJ=shrPrefs.getLong(SettingsActivity.pref_counterDJ, 0l);
+		long oldcounterShake=shrPrefs.getLong(SettingsActivity.pref_counterShake, 0l);
+		long oldcounterVoice=shrPrefs.getLong(SettingsActivity.pref_counterVoice, 0l);
+		// prevent long overflow and roll-over
+		long newCounterPress=Math.max(oldcounterPress, oldcounterPress+counterPress);
+		long newCounterDJ=Math.max(oldcounterDJ, oldcounterDJ+counterDJ);
+		long newCounterShake=Math.max(oldcounterShake, oldcounterShake+counterShake);
+		long newCounterVoice=Math.max(oldcounterVoice, oldcounterVoice+counterVoice);
+		e.putLong(SettingsActivity.pref_counterShake, newCounterShake);
+		e.putLong(SettingsActivity.pref_counterDJ, newCounterDJ);
+		e.putLong(SettingsActivity.pref_counterPress, newCounterPress);
+		e.putLong(SettingsActivity.pref_counterVoice, newCounterVoice);
 		e.commit();
 	}
 
