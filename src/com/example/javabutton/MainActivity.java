@@ -49,7 +49,6 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 		random=new java.util.Random();
 
         javaPool=new SoundPool(maxJavaSounds,AudioManager.STREAM_MUSIC,0);
@@ -63,9 +62,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
         accelerometer= sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-		SharedPreferences shrPrefs=PreferenceManager.getDefaultSharedPreferences(this);
-		shrPrefs.registerOnSharedPreferenceChangeListener(this);
-    }
+	}
     
     private void loadPreferences(SharedPreferences shrPrefs) {
     	float density=getResources().getDisplayMetrics().density;
@@ -96,8 +93,6 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		
 		enableLucky=shrPrefs.getBoolean("pref_lucky_enable", false);
 		enableShakeModulation=shrPrefs.getBoolean("pref_shakeJava_modulation_enable", true);
-		
-		resetCounters();
 	}
 	private void resetCounters() {
 		counterPress=0l;
@@ -105,16 +100,18 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		counterShake=0l;
 		counterVoice=0l;
 	}
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		resetCounters();
+		sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW);
 		loadPreferences(PreferenceManager.getDefaultSharedPreferences(this));
-    }
+		PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+	}
 
-    @Override
-    protected void onPause() {
-        sensorManager.unregisterListener(this);
+	@Override
+	protected void onPause() {
+		sensorManager.unregisterListener(this);
 		PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
 		saveCounters();
 		super.onPause();
