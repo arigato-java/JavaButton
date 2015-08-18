@@ -4,4 +4,5 @@
 	<color name="primary">#f00</color>
 	<color name="primary_dark">#a00</color>
 	<color name="accent">#f33</color>
+	<color name="javafield">#fff</color>
 </resources>
