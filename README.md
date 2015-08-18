@@ -3,7 +3,7 @@
 Androidデバイスで生ジャバがいつでも聞けます。
 ホーム画面にウィジェットとして追加できるようになりました。
 
-<img src="res/drawable-xxhdpi/dl_button.png" />
+<img src="app/src/main/res/drawable-xxhdpi/dl_button.png" />
 
 振るとジャバできるようになりました。
 正直どういう場面で役に立つ機能なのか想像できないのですが、コードがコントリビュートされてしまいました。
@@ -41,7 +41,7 @@ GitHub Release https://github.com/tomari/JavaButton/releases
 何もパーミッションを要求しないので安心。
 
 ## コンパイル方法
-エクリプスでコンパイルする
+アンドロイドスタジオでコンパイルする
 
 ## License
 public domain
