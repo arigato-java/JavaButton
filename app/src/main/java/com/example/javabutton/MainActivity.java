@@ -3,6 +3,7 @@ package com.example.javabutton;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ClipDescription;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -172,7 +173,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		ShareActionProvider sap=(ShareActionProvider)shareItem.getActionProvider();
 		if(sap!=null) {
 			Intent shareIntent=new Intent(Intent.ACTION_SEND);
-			shareIntent.setType(org.apache.http.protocol.HTTP.PLAIN_TEXT_TYPE);
+			shareIntent.setType(ClipDescription.MIMETYPE_TEXT_PLAIN);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.java_message));
 			
 			sap.setShareIntent(shareIntent);
