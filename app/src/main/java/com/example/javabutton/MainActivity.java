@@ -42,15 +42,15 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     private GestureDetector gDetector;
 	private JavaGestureListener gestureListener;
 	private boolean enableLucky=false;
-	private java.util.Random random;
+	private final java.util.Random random=new java.util.Random();
 	private boolean enableShakeModulation=true;
 	private long counterDJ, counterPress, counterShake, counterVoice;
-
+	private Intent shareIntent;
+	private String[] meigen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-		random=new java.util.Random();
 
         javaPool=new SoundPool(maxJavaSounds,AudioManager.STREAM_MUSIC,0);
         javaSoundId=javaPool.load(this, R.raw.java22, 1);
@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		}
        z=Math.max(1.f, Math.min(x, y));
 		v_min=density*z;
-		w=Math.max(v_min+1.f, Math.max(x, y));
+		w=Math.max(v_min + 1.f, Math.max(x, y));
 		v_max=density*w;
 		gestureListener.setMinMax(v_min, v_max);
 		
@@ -172,15 +172,18 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
 		MenuItem shareItem=menu.findItem(R.id.menu_item_share);
 		ShareActionProvider sap=(ShareActionProvider)shareItem.getActionProvider();
 		if(sap!=null) {
-			Intent shareIntent=new Intent(Intent.ACTION_SEND);
+			shareIntent = new Intent(Intent.ACTION_SEND);
 			shareIntent.setType(ClipDescription.MIMETYPE_TEXT_PLAIN);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.java_message));
-			
 			sap.setShareIntent(shareIntent);
+			meigen=getResources().getStringArray(R.array.meigen);
+			refreshMeigen();
 		}
-
         return true;
     }
+	private void refreshMeigen() {
+		shareIntent.removeExtra(Intent.EXTRA_TEXT);
+		shareIntent.putExtra(Intent.EXTRA_TEXT, meigen[random.nextInt(meigen.length)]);
+	}
 
     @Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -199,6 +202,7 @@ public class MainActivity extends Activity implements SensorEventListener, OnSha
     public void JavaButtonClick(View v) {
 		playJava(1.f);
 		counterPress++;
+		refreshMeigen();
 	}
 
     @Override
