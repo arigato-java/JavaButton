@@ -31,13 +31,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="JavaButtonWidgetProvider" >
+        <receiver android:name="JavaButtonWidgetProvider"
+			android:label="@string/redjavabo_name">
 	    	<intent-filter >
 	       		<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
 	       		<action android:name="com.example.javabutton.JavaButtonWidgetProvider.JAVA_ACTION" />
 	    	</intent-filter>
 	    	<meta-data android:name="android.appwidget.provider"
 	       			   android:resource="@xml/javabutton_appwidget_info" />
+		</receiver>
+		<receiver android:name="AoiJavaboWidgetProvider"
+			android:label="@string/blujavabo_name">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+				<action android:name="com.example.javabutton.JavaButtonWidgetProvider.AOI_ACTION" />
+			</intent-filter>
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/aoi_appwidget_info" />
 		</receiver>
        <activity
            android:name="com.example.javabutton.SettingsActivity"

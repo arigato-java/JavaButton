@@ -30,4 +30,8 @@
 	<string name="pref_etc_title">その他</string>
 	<string name="pref_lucky_title">射幸心を煽る</string>
 	<string name="pref_lucky_summ">たまにジャバ以外のことをしゃべる</string>
+
+	<string name="muryojavanoda">無料 Java のダ</string>
+	<string name="redjavabo_name">無料Javaのダウンロード</string>
+	<string name="blujavabo_name">無料 Java のダ</string>
 </resources>

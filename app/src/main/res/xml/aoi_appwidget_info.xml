@@ -1,0 +1,9 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+	android:minWidth="269dp"
+	android:minHeight="66dp"
+	android:updatePeriodMillis="86400000"
+	android:previewImage="@drawable/aoi"
+	android:initialLayout="@layout/aoi_appwidget"
+	android:initialKeyguardLayout="@layout/aoi_appwidget"
+	android:widgetCategory="home_screen|keyguard">
+</appwidget-provider>
