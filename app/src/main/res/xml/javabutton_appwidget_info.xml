@@ -4,5 +4,6 @@
     android:updatePeriodMillis="86400000"
     android:previewImage="@drawable/dl_button"
     android:initialLayout="@layout/javabutton_appwidget"
-    android:widgetCategory="home_screen">
+	android:initialKeyguardLayout="@layout/javabutton_appwidget"
+	android:widgetCategory="home_screen|keyguard">
 </appwidget-provider>
