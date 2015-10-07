@@ -4,11 +4,11 @@
 		android:orderInCategory="90"
 		android:showAsAction="always"
 		android:title="@string/action_mic"
-		android:icon="@drawable/action_mic" />
+		android:icon="@drawable/ic_mic_24dp" />
 	<item
 		android:id="@+id/action_settings"
 		android:orderInCategory="100"
 		android:showAsAction="ifRoom"
 		android:title="@string/action_settings"
-		android:icon="@drawable/action_settings" />
+		android:icon="@drawable/ic_settings_24dp" />
 </menu>
