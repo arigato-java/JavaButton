@@ -141,9 +141,10 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="__local_aars__:/home/davy/work/JavaButton/app/third_party/gamecirclesdk.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:/home/davy/work/JavaButton/app/third_party/login-with-amazon-sdk.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:$MODULE_DIR$/third_party/gamecirclesdk.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:$MODULE_DIR$/third_party/login-with-amazon-sdk.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="org.jetbrains:annotations:13.0@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:$MODULE_DIR$/third_party/AmazonInsights-android-sdk-2.1.26.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.60@jar" level="project" />
     <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.60@jar" level="project" />
   </component>
