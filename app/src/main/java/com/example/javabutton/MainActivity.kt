@@ -27,11 +27,7 @@ import android.widget.Toast
 import android.media.AudioManager
 import android.media.SoundPool
 
-// Amazon GameCircle
-import com.amazon.ags.api.*
-import java.util.*
-
-class MainActivity : Activity(), SensorEventListener, OnSharedPreferenceChangeListener {
+class MainActivity : AgsActivity(), SensorEventListener, OnSharedPreferenceChangeListener {
     private var sensorManager: SensorManager? = null
     private var accelerometer: Sensor? = null
     protected var JAVA_MIN_ACCEL = 600f
@@ -66,23 +62,6 @@ class MainActivity : Activity(), SensorEventListener, OnSharedPreferenceChangeLi
 
             return false
         }
-
-    // Amazon GameCircle Start
-    private val agsCallback=object:AmazonGamesCallback{
-        override fun onServiceNotReady(p0: AmazonGamesStatus?) {
-
-        }
-        override fun onServiceReady(p0: AmazonGamesClient?) {
-            agsClient=p0
-        }
-    }
-    private val agsGameFeatures= EnumSet.of(
-            AmazonGamesFeature.Achievements,
-            AmazonGamesFeature.Leaderboards,
-            AmazonGamesFeature.Whispersync
-    )
-    private var agsClient: AmazonGamesClient? = null
-    // Amazon GameCircle End
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,9 +126,6 @@ class MainActivity : Activity(), SensorEventListener, OnSharedPreferenceChangeLi
 
     override fun onResume() {
         super.onResume()
-        // Initialize Amazon GameCircle
-        AmazonGamesClient.initialize(this,agsCallback,agsGameFeatures)
-
         resetCounters()
         sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_STATUS_ACCURACY_LOW)
         loadPreferences(PreferenceManager.getDefaultSharedPreferences(this))
@@ -161,7 +137,6 @@ class MainActivity : Activity(), SensorEventListener, OnSharedPreferenceChangeLi
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this)
         saveCounters()
         super.onPause()
-        AmazonGamesClient.release()
     }
 
     private fun saveCounters() {
