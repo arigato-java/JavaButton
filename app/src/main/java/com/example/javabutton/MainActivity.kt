@@ -14,7 +14,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.content.pm.ResolveInfo
 import android.view.GestureDetector
 import android.view.KeyEvent
 import android.view.Menu
@@ -23,24 +22,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ShareActionProvider
 import android.widget.Toast
-//import android.widget.Toast;
-import android.media.AudioManager
-import android.media.SoundPool
 
-class MainActivity : AgsActivity(), SensorEventListener, OnSharedPreferenceChangeListener {
+class MainActivity : JavaBaseActivity(), SensorEventListener, OnSharedPreferenceChangeListener {
     private var sensorManager: SensorManager? = null
     private var accelerometer: Sensor? = null
     protected var JAVA_MIN_ACCEL = 600f
     protected var JAVA_MAX_ACCEL = 1000f
-    private var javaPool: SoundPool? = null
-    private val maxJavaSounds = 4
-    private var javaSoundId: Int = 0
-    private var eyepadSoundId: Int = 0
     private var evenShake = true
     private var gDetector: GestureDetector? = null
     private var gestureListener: JavaGestureListener? = null
-    private var enableLucky = false
-    private val random = java.util.Random()
     private var enableShakeModulation = true
     private var counterDJ: Long = 0
     private var counterPress: Long = 0
@@ -66,10 +56,6 @@ class MainActivity : AgsActivity(), SensorEventListener, OnSharedPreferenceChang
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        javaPool = SoundPool(maxJavaSounds, AudioManager.STREAM_MUSIC, 0)
-        javaSoundId = javaPool!!.load(this, R.raw.java22, 1)
-        eyepadSoundId = javaPool!!.load(this, R.raw.eyepad, 1)
 
         gestureListener = JavaGestureListener(this)
         gDetector = GestureDetector(this, gestureListener)
@@ -160,7 +146,6 @@ class MainActivity : AgsActivity(), SensorEventListener, OnSharedPreferenceChang
 
     override fun onDestroy() {
         super.onDestroy()
-        javaPool!!.release()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -245,17 +230,6 @@ class MainActivity : AgsActivity(), SensorEventListener, OnSharedPreferenceChang
 
     override fun onSharedPreferenceChanged(shrP: SharedPreferences, arg1: String) {
         loadPreferences(shrP)
-    }
-
-    fun playJava(pitch: Float) {
-        val sndId: Int
-        if (enableLucky) {
-            val r = random.nextInt(32)
-            sndId = if (r == 0) eyepadSoundId else javaSoundId
-        } else {
-            sndId = javaSoundId
-        }
-        javaPool!!.play(sndId, 1.0f, 1.0f, 1, 0, pitch)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
