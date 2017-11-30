@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.View
 // Amazon GameCircle
 import com.amazon.ags.api.*
+import com.amazon.ags.api.achievements.AchievementsClient
 import java.util.*
 
 // Activity with Amazon GameCircle-related procedures
@@ -17,6 +18,7 @@ open class AgsActivity: Activity() {
         }
         override fun onServiceReady(p0: AmazonGamesClient?) {
             agsClient=p0
+            acClient=agsClient?.achievementsClient
         }
     }
     private val agsGameFeatures= EnumSet.of(
@@ -25,6 +27,7 @@ open class AgsActivity: Activity() {
             AmazonGamesFeature.Whispersync
     )
     private var agsClient: AmazonGamesClient? = null
+    private var acClient: AchievementsClient? = null
 
     override fun onResume() {
         super.onResume()
@@ -44,5 +47,13 @@ open class AgsActivity: Activity() {
     fun uploadScore(score: Long){
         val lbClient=agsClient?.leaderboardsClient
         lbClient?.submitScore(LeaderboardId,score)
+    }
+
+    // Achievements
+    open fun openAchievements(v:View){
+        acClient?.showAchievementsOverlay()
+    }
+    open fun unlockAchievement(achievementName: String, progress:Float=100.0f){
+        acClient?.updateProgress(achievementName,progress)
     }
 }

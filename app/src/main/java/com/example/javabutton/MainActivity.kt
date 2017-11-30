@@ -151,6 +151,7 @@ class MainActivity : JavaRecognitionActivity(), OnSharedPreferenceChangeListener
         playJava(1f)
         counterPress++
         refreshMeigen()
+        unlockAchievements()
     }
 
 
@@ -190,6 +191,15 @@ class MainActivity : JavaRecognitionActivity(), OnSharedPreferenceChangeListener
         val oldcounterPress = shrPrefs.getLong(SettingsActivity.pref_counterPress, 0L)
         val score=oldcounterPress+counterPress
         uploadScore(score)
+    }
+
+    // Achievements
+    private var scanAllAchievements=true
+    fun unlockAchievements(){
+        if(!scanAllAchievements){
+            unlockAchievement(AchievementName_JavaPress1);
+        }
+        scanAllAchievements=false
     }
 
 }
