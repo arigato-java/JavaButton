@@ -34,4 +34,8 @@
 	<string name="muryojavanoda">無料 Java のダ</string>
 	<string name="redjavabo_name">無料Javaのダウンロード</string>
 	<string name="blujavabo_name">無料 Java のダ</string>
+
+	<string name="leaderboards_buttontitle">Leaderboards</string>
+	<string name="online_buttontitle">Online</string>
+	<string name="achievements_buttontitle">Torophies</string>
 </resources>

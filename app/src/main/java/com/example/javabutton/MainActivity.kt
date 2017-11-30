@@ -73,6 +73,9 @@ class MainActivity : JavaRecognitionActivity(), OnSharedPreferenceChangeListener
         resetCounters()
         loadPreferences(PreferenceManager.getDefaultSharedPreferences(this))
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this)
+
+        // upload score to the leaderboard
+        uploadPressScore()
     }
 
     override fun onPause() {
@@ -176,4 +179,17 @@ class MainActivity : JavaRecognitionActivity(), OnSharedPreferenceChangeListener
         }
         return super.onKeyDown(keyCode, event)
     }
+
+    // Leaderboards
+    override fun openLeaderboards(v:View){
+        uploadPressScore()
+        super.openLeaderboards(v)
+    }
+    fun uploadPressScore(){
+        val shrPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val oldcounterPress = shrPrefs.getLong(SettingsActivity.pref_counterPress, 0L)
+        val score=oldcounterPress+counterPress
+        uploadScore(score)
+    }
+
 }
