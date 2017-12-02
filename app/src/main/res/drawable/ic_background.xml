@@ -1,0 +1,20 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:height="108dp" android:width="108dp">
+		<shape android:shape="rectangle">
+			<gradient
+				android:angle="90"
+				android:endColor="@color/crimson_start"
+				android:startColor="@color/crimson_end"
+				android:type="linear" />
+		</shape>
+	</item>
+	<item android:height="37dp" android:width="108dp" android:gravity="top">
+		<shape android:shape="rectangle">
+			<gradient
+				android:angle="90"
+				android:endColor="@color/crimson_overlay_start"
+				android:startColor="@color/crimson_overlay_end"
+				android:type="linear" />
+		</shape>
+	</item>
+</layer-list>

@@ -5,4 +5,8 @@
 	<color name="primary_dark">#a00</color>
 	<color name="accent">#f33</color>
 	<color name="javafield">#fff</color>
+	<color name="crimson_start">#ff8791</color>
+	<color name="crimson_end">#b50010</color>
+	<color name="crimson_overlay_start">#2bffffff</color>
+	<color name="crimson_overlay_end">#3affffff</color>
 </resources>
