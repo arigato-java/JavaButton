@@ -1,5 +1,7 @@
 # ジャバボタン
 
+[![CircleCI](https://circleci.com/gh/arigato-java/JavaButton.svg?style=svg)](https://circleci.com/gh/arigato-java/JavaButton)
+
 Androidデバイスで生ジャバがいつでも聞けます。
 ホーム画面にウィジェットとして追加できるようになりました。
 
