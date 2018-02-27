@@ -20,9 +20,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation files('third_party/gamecirclesdk.jar')
-    implementation files('third_party/login-with-amazon-sdk.jar')
-    implementation files('third_party/AmazonInsights-android-sdk-2.1.26.jar')
+    implementation "com.xiledsystems:aal_game_circle_sdk:$agc_sdk_version"
 }
 repositories {
     mavenCentral()
